@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CSC264 Course Hub – Introduction to Web and Mobile Application</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Literata:wght@400;600&display=swap">
+<style>
+:root{--bg:#f6f3fb;--card:#fff;--ink:#1d1838;--mute:#5d5878;--line:#dcd6ec;--pri:#3a2a80;--pri-ink:#fff;--gold:#e0a800;--soft:#ece7f8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15112b;--card:#1f1a3d;--ink:#eeeafc;--mute:#a8a2c8;--line:#332d5c;--pri:#b9a8ff;--pri-ink:#15112b;--gold:#f2c230;--soft:#2a2350}}
+:root[data-theme="dark"]{--bg:#15112b;--card:#1f1a3d;--ink:#eeeafc;--mute:#a8a2c8;--line:#332d5c;--pri:#b9a8ff;--pri-ink:#15112b;--gold:#f2c230;--soft:#2a2350}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 Literata,Georgia,serif}
+h1,h2,h3,button,.tab,.wk{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif}
+a{color:var(--pri)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px}
+header{background:#2a1f5c;color:#fff;padding:36px 0 28px}
+header p{margin:0;color:#cfc7f2;max-width:60ch}
+.code{font:800 clamp(52px,12vw,104px)/1 "Bricolage Grotesque",Arial,sans-serif;letter-spacing:-.03em;color:#f2c230;margin:0}
+h1{font-size:clamp(22px,4vw,32px);margin:6px 0 10px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta span{background:#ffffff1c;padding:4px 12px;border-radius:99px;font-size:14px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+nav .wrap{display:flex;gap:4px;overflow-x:auto}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:14px 14px;font-size:15px;font-weight:700;color:var(--mute);cursor:pointer;white-space:nowrap}
+.tab[aria-selected=true]{color:var(--pri);border-color:var(--gold)}
+section{display:none;padding:26px 0 60px}section.on{display:block}
+h2{font-size:26px;margin:0 0 6px}h3{font-size:18px;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card p{margin:4px 0 0;color:var(--mute);font-size:15px}
+.clo{display:flex;gap:12px;align-items:flex-start}
+.tag{flex:none;background:var(--soft);color:var(--pri);font:700 13px "Bricolage Grotesque",Arial,sans-serif;padding:3px 9px;border-radius:6px}
+.strip{display:grid;grid-template-columns:repeat(14,1fr);gap:3px;margin:8px 0 6px}
+.strip button{height:38px;border:0;border-radius:6px;background:var(--soft);color:var(--mute);font-weight:700;font-size:13px;cursor:pointer;position:relative}
+.strip button.now{background:var(--gold);color:#1d1838}
+.strip button.sel{outline:3px solid var(--pri);outline-offset:1px}
+.strip button.due::after{content:"";position:absolute;bottom:4px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--pri)}
+.legend{font-size:13px;color:var(--mute);font-family:"Bricolage Grotesque",Arial,sans-serif}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px;font-size:14px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+summary{cursor:pointer;padding:14px 16px;display:flex;gap:12px;align-items:center;list-style:none}
+summary::-webkit-details-marker{display:none}
+.wk{flex:none;min-width:64px;font-weight:800;color:var(--pri)}
+.tt{font:700 16px "Bricolage Grotesque",Arial,sans-serif;flex:1}
+.body{padding:0 16px 16px 92px}
+.body ul{margin:6px 0;padding-left:18px;color:var(--mute);font-size:15px}
+.due-note{display:inline-block;background:var(--gold);color:#1d1838;font:700 13px "Bricolage Grotesque",Arial,sans-serif;padding:3px 10px;border-radius:6px;margin:4px 6px 4px 0}
+.act{font-size:14px;color:var(--mute)}
+.bar{display:flex;height:34px;border-radius:8px;overflow:hidden;margin:10px 0 18px;font:700 13px "Bricolage Grotesque",Arial,sans-serif;color:#fff}
+.bar div{display:flex;align-items:center;justify-content:center}
+.calc label{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.calc input{width:76px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;text-align:right}
+.total{font:800 44px "Bricolage Grotesque",Arial,sans-serif;color:var(--pri);margin:10px 0 0}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.scroll{overflow-x:auto}
+.links{display:grid;gap:10px}
+.link{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+.link:hover{border-color:var(--pri)}.link small{display:block;color:var(--mute);font-size:14px}
+.link b{font-family:"Bricolage Grotesque",Arial,sans-serif}
+.go{color:var(--pri);font-weight:700;font-family:"Bricolage Grotesque",Arial,sans-serif;white-space:nowrap}
+.note{background:var(--soft);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--mute);margin-top:18px}
+footer{border-top:1px solid var(--line);padding:18px 0;color:var(--mute);font-size:13px}
+#theme{float:right;background:#ffffff1c;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px}
+.acts{margin:12px 0 4px}.acts h4{margin:0 0 8px;font:800 14px "Bricolage Grotesque",Arial,sans-serif;color:var(--pri);text-transform:uppercase;letter-spacing:.04em}.actitem{display:flex;flex-direction:column;gap:3px;align-items:flex-start;background:var(--soft);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:15px}.actitem span:not(.tag){color:var(--mute);font-size:14px}
+@media(max-width:560px){.body{padding-left:16px}.wk{min-width:52px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<button id="theme" aria-label="Toggle dark mode">Dark / light</button>
+<p class="code">CSC264</p>
+<h1>Introduction to Web and Mobile Application</h1>
+<p>Learn HTML, CSS, JavaScript, PHP and MIT App Inventor, and finish with a web project and a mobile app.</p>
+<div class="meta"><span>Semester September 2026 – February 2027 (20264)</span><span>Diploma in Computer Science, Part 4</span><span>4 credit hours</span></div>
+</div></header>
+
+<nav aria-label="Course sections"><div class="wrap" role="tablist" id="tabs"></div></nav>
+
+<main class="wrap">
+<section id="overview">
+<div class="card" id="nowcard" style="margin-bottom:18px"></div>
+<h2>What you will learn</h2>
+<p class="sub">The course covers mark-up language, client-side scripting, server-side scripting and mobile programming.</p>
+<div class="grid" id="clos"></div>
+<h2 style="margin-top:32px">Your lecturer</h2>
+<div class="card" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;max-width:560px">
+<img id="lectimg" alt="Ts. Dr. Rashidah Mokhtar" style="display:none;width:140px;height:140px;object-fit:cover;border-radius:50%;border:3px solid var(--line)">
+<div id="lectav" style="width:140px;height:140px;border-radius:50%;background:var(--soft);color:var(--pri);display:flex;align-items:center;justify-content:center;font:800 44px 'Bricolage Grotesque',Arial,sans-serif">RM</div>
+<div><h3>Ts. Dr. Rashidah Mokhtar</h3>
+<p style="margin:0">Lecturer in charge (LIC), Group JCDCS1104E<br>Office: BK79 · Tel: 019-733 3604<br><a href="mailto:rashi271@uitm.edu.my">rashi271@uitm.edu.my</a></p></div></div>
+<h2 style="margin-top:32px">How the class runs</h2>
+<div class="grid">
+<div class="card"><h3>4 hours a week</h3><p>2 hours of lecture and 2 hours of blended learning.</p></div>
+<div class="card"><h3>ADAB</h3><p>Analysis, Design and Delivery, Access, Built in belief. Every activity follows this flow.</p></div>
+<div class="card"><h3>i-DART</h3><p>Ilmu, disiplin, amanah, rajin, tanggungjawab: the values and class rules set in Week 1.</p></div>
+</div>
+</section>
+
+<section id="schedule">
+<h2>Weekly schedule</h2>
+<p class="sub">Tap a week to jump to its topic. Dots mark weeks with a due date.</p>
+<div class="strip" id="strip" role="group" aria-label="Weeks 1 to 14"></div>
+<div class="legend">Gold = this week · Dots = something is due</div>
+<div class="filters" id="filters"></div>
+<div id="topics"></div>
+<div class="card" style="margin-top:14px"><h3>Key dates</h3>
+<table><tbody id="dates"></tbody></table></div>
+</section>
+
+<section id="assess">
+<h2>Assessment</h2>
+<p class="sub">70% continuous assessment and 30% final assessment.</p>
+<div class="bar" id="bar"></div>
+<div class="grid">
+<div class="card calc"><h3>Mark calculator</h3><p>Enter your marks for each component.</p>
+<div id="inputs"></div><div class="total" id="total">0 / 100</div><p id="carry"></p></div>
+<div class="card"><h3>Components</h3><div class="scroll"><table id="atable"></table></div></div>
+</div>
+<div class="note">Carrymarks release: 70% (group project 50%, presentation 10%, proposal report 10%), or 50% (group project 30%, presentation 10%, proposal report 10%).</div>
+</section>
+
+<section id="resources">
+<h2>Files and links</h2>
+<p class="sub">Course documents, tools and books in one place.</p>
+<h3>Course documents</h3>
+<div class="links" id="docs" style="margin:10px 0 24px"></div>
+<h3>Tools you will use</h3>
+<div class="links" id="tools" style="margin:10px 0 24px"></div>
+<h3>Textbook and references</h3>
+<div class="card"><p><b>Textbook:</b> Robin Nixon, <i>Learning PHP, MySQL and JavaScript</i>, 6th ed., O'Reilly Media, 2021. ISBN 9781492093824</p>
+<ol id="refs" style="color:var(--mute);font-size:15px;padding-left:20px"></ol></div>
+<div class="note">Using GenAI in your work? Complete the GenAI Usage Declaration Form through the FSKM student guide link above.</div>
+</section>
+</main>
+<footer><div class="wrap">Built from the CSC264 Scheme of Work, September 2026 – February 2027. Check the latest documents from your lecturer if anything differs.</div></footer>
+
+<script>
+/* ===== EDIT HERE: replace "#" with your real file links (e-learning, Google Drive, etc.) ===== */
+const DOCS=[
+ {t:"Scheme of Work (CSC264, Sept 2026)",d:"Weekly topics, assessments and dates",u:"https://drive.google.com/file/d/1n5fDYOiih6SxrD90BxJQwN2sqeACdJpO/view?usp=sharing"},
+ {t:"Project proposal template",d:"Web 5% and mobile 5%",u:"https://drive.google.com/file/d/1diKSnbeaZ1Dff6efkvc0_v_MWCTnWG0L/view?usp=sharing"},
+ {t:"Web project brief and rubric",d:"Group project, 50%",u:"https://drive.google.com/file/d/1hCPR_rvHqsO3qTx8DCbkFK52fpMZ3Ik2/view?usp=sharing"},
+ {t:"Mobile app project brief and rubric",d:"Individual project, 30%",u:"https://drive.google.com/file/d/10ykTzSw0WGzjMU5gIDs4KxvozxnR42hb/view?usp=sharing"},
+  {t:"Mobile app project report",d:"Individual project, 5%",u:"https://docs.google.com/document/d/1vtjWoXykeMxUeMGxxXi9tATEBOBSjR6X/edit?usp=sharing&ouid=110785502423994565271&rtpof=true&sd=true"},
+ {t:"Lecture notes",d:"Slides for each topic are in the Schedule tab",go:"schedule"}
+];
+const TOOLS=[
+ {t:"W3Schools",d:"HTML, CSS, JavaScript and PHP tutorials (Week 2 hands-on)",u:"https://www.w3schools.com"},
+ {t:"Padlet",d:"CSS and JavaScript exercises (Weeks 3 and 4)",u:"https://padlet.com"},
+ {t:"MIT App Inventor",d:"Build your mobile app (Topic 10)",u:"https://appinventor.mit.edu"},
+ {t:"XAMPP",d:"Local web server with PHP and MySQL (Week 6)",u:"https://www.apachefriends.org"},
+ {t:"GenAI Usage Declaration Form",d:"FSKM student guide",u:"https://kbg-pelajar-fskm.web.app"}
+];
+const LECT_PHOTO="https://lh3.googleusercontent.com/d/19Qs4KIf3RP6qlGGC1YlhEUsO_3u5gVz-"; // paste a data:image/jpeg;base64,... string here (remote URLs are blocked on published pages)
+// Lecture notes: paste the shared link of each PDF between the quotes (Topic 1 to 10)
+const NOTES={
+1:[{t:"Lecture notes",u:"https://drive.google.com/file/d/1y7mLzfC5GhQs33OQAREvlHADxc03Rh-Y/view?usp=sharing"}],
+ 2:[{t:"HTML 1",u:"https://drive.google.com/file/d/1EGWt-EMjdtCdolZ31Ke_z0l_9rLxXe3-/view?usp=sharing"},
+    {t:"HTML 2",u:"https://drive.google.com/file/d/188Eg3v_xRPsAxEiqx2YmZTD5w1yCizXT/view?usp=sharing"}],
+ 3:[{t:"Lecture notes",u:"https://drive.google.com/file/d/1nqS1gbUAWYsTQXeu2PmxaSO65DXnqXPh/view?usp=sharing"}],
+ 4:[{t:"Lecture notes",u:"https://drive.google.com/file/d/1jMBG2xxC7T4Hnf4VB5NLVJD562pdme4f/view?usp=sharing"}],
+ 5:[{t:"Lecture notes",u:"https://drive.google.com/file/d/1FQYhn8rSEROASfeGfXO12yjlg-1SXNPV/view?usp=sharing"}],
+ 6:[{t:"Lecture notes",u:"https://drive.google.com/file/d/1D1hzOjL8KOzZlB_cLUutFtM5rnuJ9kq5/view?usp=sharing"}],
+ 7:[{t:"Lecture notes",u:"https://drive.google.com/file/d/1jP4WjUwmOFi5TkY4xae5Fx8bbZaPyucK/view?usp=sharing"}],
+ 8:[{t:"CRUD example",u:"https://drive.google.com/file/d/1bb4JWhCJ7P2lQsLk2zUBy6_ISARH7tlo/view?usp=sharing"}],
+ 9:[{t:"Lecture notes",u:"https://drive.google.com/file/d/1RGyne3F1_qJ3xrXyUBYQo84VxzHlolSq/view?usp=sharing"},
+  {t:"MIT App Get started",u:"https://appinventor.mit.edu/explore/ai2/beginner-videos"}],
+ 10:[{t:"MIT App Library", u:"https://appinventor.mit.edu/explore/library"},
+  {t:"MIT App Tutorials",u:"https://appinventor.mit.edu/explore/ai2/tutorials"}],
+
+
+};
+/* ===== ACTIVITIES per topic: key = Topic number. Add a line to add an activity. wk and link are optional ===== */
+const ACTS={
+ 1:[{stage:"Analysis",t:"VAK survey, ADAB, i-DART and class rules",d:"Find your learning style and agree on class values."}],
+ 2:[{stage:"Design",t:"Hands-on with W3Schools",d:"Practise HTML, forms and multimedia.",link:"https://www.w3schools.com"}],
+ 3:[{stage:"Design",t:"CSS exercise on Padlet",d:"Style a page and post your result.",link:"https://padlet.com"}],
+ 4:[{stage:"Design",t:"JavaScript exercise on Padlet",d:"Variables, arrays, loops and strings.",link:"https://padlet.com"}],
+ 5:[],
+ 6:[{stage:"Access",t:"Install a localhost web server",d:"Set up XAMPP with PHP and MySQL.",link:"https://www.apachefriends.org"}],
+ 7:[{stage:"Access",t:"Expert sharing session",d:"Industry speaker session."}],
+ 8:[{stage:"Built in belief",t:"Feedback on the industry session",d:"Reflect on what you learned."}],
+ 9:[{wk:"Week 10",stage:"Delivery",t:"Present your web project",d:"Submit and present in class."}],
+ 10:[{wk:"Week 14",stage:"Built in belief",t:"Present in groups",d:"Share what you gained from your mobile app project.",link:"https://appinventor.mit.edu"}]
+};
+/* ========================================================================================== */
+const START=new Date(2026,8,28); // Mon 28 Sep 2026, Week 1
+const CLOS=[
+ ["CLO1","A3","Demonstrate effective delivery through oral presentations in producing an industry-standard web application."],
+ ["CLO2","A4","Perform digital skills in mobile application development using current and emerging software and tools."],
+ ["CLO3","A4","Integrate leadership skills and responsibilities in the development of a web application."],
+ ["CLO4","A3","Propose entrepreneurial business plan for commercialization of a web application."]];
+const TOPICS=[
+ {n:1,w:[1,1],g:"html",t:"Introduction to Internet",pts:["Intranet, ISP, connecting to the internet","How data travels; protocols","Effective HTML page: elements, attributes, comments","HTML structure: text, list, table"],due:["Announcement of proposal report (5%, group project)","Entrance survey"],act:"Analysis (Situate): VAK survey, ADAB, i-DART and class rules"},
+ {n:2,w:[2,2],g:"html",t:"HTML and Multimedia on the Web",pts:["Links, objects and images","Alignment and font style; forms","Adding image, audio, video, animation and VR"],due:["Announcement of web project: find group and topic"],act:"Design (Digest): hands-on with W3Schools"},
+ {n:3,w:[3,3],g:"front",t:"Cascading Style Sheet",pts:["Introduction to CSS and adding style","Adding and changing elements with CSS","Creating and styling web forms"],due:["Submit proposal report (web project)"],act:"Design (Synthesis): CSS exercise on Padlet"},
+ {n:4,w:[4,4],g:"front",t:"Introduction to Client-Side Scripting",pts:["How client-side scripting works","Variables and syntax; arrays","Built-in methods, logic, looping, string handling"],due:[],act:"Design (Synthesis): JS exercise on Padlet"},
+ {n:5,w:[5,5],g:"front",t:"Basic Client-Side Scripting",pts:["Date, time and Math objects","Functions","Creating objects"],due:[],act:""},
+ {n:6,w:[6,6],g:"server",t:"Introduction to Server-Side Scripting",pts:["How server-side scripting works","Server requirements","Conditionals, loops, functions, sessions"],due:[],act:"Access (Create): install a localhost web server"},
+ {n:7,w:[7,7],g:"server",t:"Basic Server-Side Scripting",pts:["Administering a database","Talking to the database from PHP","Validating forms with JavaScript and PHP"],due:[],act:"Access (Connect): expert sharing session with an industry speaker"},
+ {n:8,w:[8,9],g:"server",t:"Advanced Server-Side Scripting",pts:["Members-only website and user database","Web forms and authenticated pages","JSON"],due:[],act:"Built in belief (reflect): feedback on the industry session"},
+ {n:9,w:[10,11],g:"mobile",t:"Mobile Application",pts:["Characteristics of mobile apps; input and output","Sending data to a database","Sending apps to the store; development software"],due:["Submit and present web project (Week 10)"],act:"Mid-semester break: 21 – 27 December 2026"},
+ {n:10,w:[12,14],g:"mobile",t:"Mobile Application: MIT App Inventor",pts:["Setup; Designer and Blocks Editor","Using MIT App Inventor","Packaging and sharing apps"],due:["Student Feedback Online (SuFO) / Exit survey","Submit and present mobile app project (Week 14)"],act:"Built in belief (value and extend): present in groups and share what you gained"}];
+const GROUPS={all:"All topics",html:"HTML",front:"CSS and JavaScript",server:"PHP and server",mobile:"Mobile"};
+const DATES=[["Week 1 – 12","28 Sep – 20 Dec 2026"],["Mid-semester break","21 – 27 Dec 2026"],["Week 13 – 14","28 Dec 2026 – 10 Jan 2027"],["Revision week","11 – 17 Jan 2027"],["Final assessment (Weeks 15 – 17)","18 Jan – 7 Feb 2027"]];
+const AS=[["Group project (web system)","CLO3",50,"#3a2a80"],["Presentation (individual)","CLO1",10,"#7a4fb0"],["Proposal report (web 5% + mobile 5%)","CLO4",10,"#b07a1a"],["Individual project (mobile app, final)","CLO2",30,"#2a7a6a"]];
+const REFS=["Karen Lang, Selim Tezel, Become an App Inventor, MITeen Press, 2022","Logan Pratt, PHP, Independently Published, 2020","Lang, K. et al., Become an App Inventor: The Official Guide, Candlewick Press, 2022","Mike McGrath, HTML, CSS & JavaScript in easy steps, 2020","Lorna Timbah, Beginner Mobile App Development Using MIT App Inventor 2, 2020"];
+const $=id=>document.getElementById(id);
+function weekNow(){const d=Math.floor((new Date()-START)/864e5);if(d<0)return 0;const w=Math.floor(d/7)+1;if(w<=12)return w;if(w===13)return -1;/*break*/ if(w<=15)return w-1;return 99}
+const NOW=weekNow();
+// tabs
+[["overview","Overview"],["schedule","Schedule"],["assess","Assessment"],["resources","Files and links"]].forEach(([id,l],i)=>{
+ const b=document.createElement("button");b.className="tab";b.textContent=l;b.setAttribute("role","tab");b.setAttribute("aria-selected",i===0);b.onclick=()=>show(id);b.dataset.id=id;$("tabs").appendChild(b)});
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===id));
+ document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.id===id));scrollTo({top:0})}
+show("overview");
+// now card
+(function(){let h;const t=TOPICS.find(x=>NOW>=x.w[0]&&NOW<=x.w[1]);
+ if(NOW===0)h="<h3>The semester starts on 28 September 2026</h3><p>Get ready for Week 1: Introduction to Internet.</p>";
+ else if(NOW===-1)h="<h3>Mid-semester break</h3><p>21 – 27 December 2026. Week 13 begins on 28 December.</p>";
+ else if(NOW===99)h="<h3>Semester classes have ended</h3><p>Check the final assessment dates in the schedule.</p>";
+ else if(t)h=`<h3>This week is Week ${NOW}: ${t.t}</h3><p>${t.act||t.pts[0]}${t.due.length?" · Due: "+t.due.join("; "):""}</p>`;
+ $("nowcard").innerHTML=h})();
+$("clos").innerHTML=CLOS.map(c=>`<div class="card clo"><span class="tag">${c[0]} · ${c[1]}</span><span>${c[2]}</span></div>`).join("");
+// schedule
+let sel=null,grp="all";
+function tOfWeek(w){return TOPICS.find(x=>w>=x.w[0]&&w<=x.w[1])}
+$("strip").innerHTML="";
+for(let w=1;w<=14;w++){const t=tOfWeek(w);const b=document.createElement("button");b.textContent=w;b.setAttribute("aria-label","Week "+w+": "+t.t);
+ if(w===NOW)b.classList.add("now");if(t.due.length&&t.w[1]===w||(t.n===9&&w===10))b.classList.add("due");
+ b.onclick=()=>{grp="all";render();const d=document.getElementById("t"+t.n);d.open=true;d.scrollIntoView({behavior:"smooth",block:"center"});
+  document.querySelectorAll(".strip button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel")};$("strip").appendChild(b)}
+$("filters").innerHTML=Object.entries(GROUPS).map(([k,l])=>`<button class="chip" data-g="${k}" aria-pressed="${k==="all"}">${l}</button>`).join("");
+$("filters").onclick=e=>{const g=e.target.dataset.g;if(!g)return;grp=g;render()};
+
+function render(){document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.g===grp));
+ $("topics").innerHTML=TOPICS.filter(t=>grp==="all"||t.g===grp).map(t=>{const wl=t.w[0]===t.w[1]?"Week "+t.w[0]:"Weeks "+t.w[0]+"–"+t.w[1];
+ return `<details id="t${t.n}" ${NOW>=t.w[0]&&NOW<=t.w[1]?"open":""}><summary><span class="wk">${wl}</span><span class="tt">Topic ${t.n}: ${t.t}</span></summary><div class="body"><ul>${t.pts.map(p=>"<li>"+p+"</li>").join("")}</ul>${t.due.map(d=>`<span class="due-note">${d}</span>`).join("")}${(ACTS[t.n]||[]).length?`<div class="acts"><h4>Activities</h4>${ACTS[t.n].map(a=>`<div class="actitem"><span class="tag">${a.wk||wl} · ${a.stage}</span><b>${a.t}</b><span>${a.d||""}</span>${a.link?`<a class="go" href="${a.link}" target="_blank" rel="noopener">Open</a>`:""}</div>`).join("")}</div>`:(t.act?`<div class="act">${t.act}</div>`:"")}<p style="margin:10px 0 0">${(NOTES[t.n]||[]).filter(n=>n.u).map(n=>`<a class="go" href="${n.u}" target="_blank" rel="noopener" style="display:block;margin-bottom:4px">${n.t} (PDF)</a>`).join("")||`<span class="act">Lecture notes: coming soon</span>`}</p></div></details>`}).join("")}
+render();
+$("dates").innerHTML=DATES.map(d=>`<tr><td>${d[0]}</td><td>${d[1]}</td></tr>`).join("");
+// assessment
+$("bar").innerHTML=AS.map(a=>`<div style="width:${a[2]}%;background:${a[3]}" title="${a[0]}">${a[2]}%</div>`).join("");
+$("atable").innerHTML="<tr><th>Component</th><th>CLO</th><th>Weight</th></tr>"+AS.map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}%</td></tr>`).join("");
+$("inputs").innerHTML=AS.map((a,i)=>`<label>${a[0]} <span><input type="number" min="0" max="100" inputmode="decimal" data-i="${i}" placeholder="0"> %</span></label>`).join("");
+$("inputs").oninput=()=>{let s=0,c=0;document.querySelectorAll("#inputs input").forEach(inp=>{const v=Math.min(100,Math.max(0,parseFloat(inp.value)||0));const w=AS[inp.dataset.i][2];s+=v*w/100;if(inp.dataset.i<3)c+=v*w/100});
+ $("total").textContent=s.toFixed(1)+" / 100";$("carry").textContent="Continuous assessment so far: "+c.toFixed(1)+" / 70. Enter each score as a percentage of that component."};
+$("inputs").oninput();
+if(LECT_PHOTO){const i=$("lectimg");i.onload=()=>{i.style.display="block";$("lectav").style.display="none"};i.src=LECT_PHOTO}
+// resources
+const L=a=>a.go?`<a class="link" href="#" data-go="${a.go}"><span><b>${a.t}</b><small>${a.d}</small></span><span class="go">Open Schedule</span></a>`:`<a class="link" href="${a.u}" target="_blank" rel="noopener"><span><b>${a.t}</b><small>${a.d}</small></span><span class="go">${a.u==="#"?"Link coming soon":"Open"}</span></a>`;$("docs").innerHTML=DOCS.map(L).join("");$("tools").innerHTML=TOOLS.map(L).join("");
+$("refs").innerHTML=REFS.map(r=>"<li>"+r+"</li>").join("");
+document.querySelectorAll('a[href="#"]').forEach(a=>a.addEventListener("click",e=>e.preventDefault()));
+document.querySelectorAll("a[data-go]").forEach(a=>a.addEventListener("click",()=>show(a.dataset.go)));
+$("theme").onclick=()=>{const r=document.documentElement;const d=getComputedStyle(r).getPropertyValue("--bg").trim()==="#15112b";r.dataset.theme=d?"light":"dark"};
+</script>
+</body>
+</html>
