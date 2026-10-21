@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JavaScript, hands on</title>
+<style>
+:root{--bg:#F2F5F9;--card:#fff;--ink:#16223B;--mut:#5B6780;--acc:#F2B63A;--accink:#16223B;--ok:#1B7F55;--bad:#B93636;--code:#14213D;--codeink:#E8EEF9;--line:#D8DFEA;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1626;--card:#17213A;--ink:#E8EEF9;--mut:#9AA7C2;--code:#0A101D;--line:#2A3757;--ok:#4CC38A;--bad:#F07A7A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1626;--card:#17213A;--ink:#E8EEF9;--mut:#9AA7C2;--code:#0A101D;--line:#2A3757;--ok:#4CC38A;--bad:#F07A7A;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Georgia,"Iowan Old Style",serif}
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px 48px}
+h1{font:700 34px/1.15 "Trebuchet MS",system-ui,sans-serif;margin:0 0 6px}
+.sub{color:var(--mut);margin:0 0 20px;max-width:60ch}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .4s}
+.cnt{font:14px system-ui,sans-serif;color:var(--mut);margin-bottom:18px}
+.grid{display:grid;grid-template-columns:230px 1fr;gap:20px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.nav{flex-direction:row!important;overflow-x:auto}.nav button{white-space:nowrap}}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav button{font:15px system-ui,sans-serif;text-align:left;padding:10px 12px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer}
+.nav button[aria-current="true"]{border-color:var(--acc);box-shadow:inset 4px 0 0 var(--acc);font-weight:700}
+.nav button.done::after{content:" ✓";color:var(--ok);font-weight:700}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
+.panel h2{font:700 24px/1.2 "Trebuchet MS",system-ui,sans-serif;margin:0 0 8px}
+.task{background:var(--bg);border-left:4px solid var(--acc);padding:10px 14px;margin:14px 0;border-radius:0 8px 8px 0}
+code{font:15px ui-monospace,Menlo,Consolas,monospace;background:var(--bg);padding:1px 5px;border-radius:4px}
+textarea{width:100%;min-height:150px;background:var(--code);color:var(--codeink);border:2px solid transparent;border-radius:8px;padding:12px;font:15px/1.5 ui-monospace,Menlo,Consolas,monospace;resize:vertical;tab-size:2}
+textarea:focus{outline:none;border-color:var(--acc)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.btn{font:700 15px system-ui,sans-serif;padding:10px 18px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.btn.go{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+.btn:focus-visible,.nav button:focus-visible,.opt:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.out{background:var(--code);color:var(--codeink);border-radius:8px;padding:10px 12px;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;min-height:44px;white-space:pre-wrap}
+.out .err{color:#FF9B9B}
+.tests{list-style:none;padding:0;margin:12px 0;font:15px system-ui,sans-serif}
+.tests li{padding:4px 0}.pass{color:var(--ok)}.fail{color:var(--bad)}
+.hint{font:15px system-ui,sans-serif;color:var(--mut);margin-top:8px}
+.q{margin:18px 0}.q p{margin:0 0 8px;font-weight:700}
+.q pre{background:var(--code);color:var(--codeink);padding:10px 12px;border-radius:8px;font:14px ui-monospace,Menlo,Consolas,monospace;margin:0 0 8px;overflow-x:auto}
+.opt{display:block;width:100%;text-align:left;font:15px system-ui,sans-serif;padding:9px 12px;margin:5px 0;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--card))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,var(--card))}
+.why{font:14px system-ui,sans-serif;color:var(--mut);margin-top:4px}
+.fld textarea{min-height:90px;background:var(--bg);color:var(--ink);border:1px solid var(--line);font:16px system-ui,sans-serif}
+.cap{font:14px system-ui,sans-serif;color:var(--mut);margin:12px 0 4px}
+.prev{border:1px dashed var(--line);border-radius:8px;padding:12px;margin:4px 0 10px;background:var(--card);font:16px system-ui,sans-serif}
+.prev input{font:16px system-ui,sans-serif;padding:6px 8px;margin:4px 0}
+.prev textarea{min-height:80px;background:var(--bg);color:var(--ink);border:1px solid var(--line);font:16px system-ui,sans-serif}
+.win{font:700 16px system-ui,sans-serif;color:var(--ok);margin-top:10px}
+.fld{display:flex;flex-direction:column;gap:4px;font:14px system-ui,sans-serif;color:var(--mut);flex:1 1 220px}
+.fld input{font:16px system-ui,sans-serif;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.fld input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.ex{border:1px solid var(--line);border-radius:10px;padding:6px 16px 12px;margin:14px 0}
+.ex h3{font:700 18px system-ui,sans-serif;margin:10px 0 4px}
+.ex ol{padding-left:22px;font:15px/1.55 system-ui,sans-serif}
+.ex ul{padding-left:22px;font:15px system-ui,sans-serif}
+pre.src{background:var(--code);color:var(--codeink);padding:12px;border-radius:8px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;overflow-x:auto;white-space:pre;margin:6px 0 12px}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>JavaScript, hands on</h1>
+  <p class="sub">Six short activities. Write real code, run it in your browser, and get instant feedback.</p>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="cnt" id="cnt"></div>
+  <div class="grid">
+    <nav class="nav" id="nav" aria-label="Activities"></nav>
+    <main class="panel" id="panel"></main>
+  </div>
+</div>
+<script>
+var L=[
+{t:"Say hello",h:"Printing with document.write",p:"Programs can show text on a web page. <code>document.write()</code> prints whatever you put inside the brackets. Text goes in quotes.",task:"Print exactly <code>I am learning JavaScript!</code> on the page.",start:"// type your code below\n",hint:"document.write(\"I am learning JavaScript!\");",tests:[["Prints I am learning JavaScript!","OUT.includes('I am learning JavaScript!')"]]},
+{t:"Variables",h:"Storing values",p:"A variable is a labelled box. Use <code>let</code> to create one that can change and <code>const</code> for one that can’t.",task:"Create a <code>const</code> called <code>name</code> holding your name (text), and a <code>let</code> called <code>age</code> holding a number above 0. Then add 1 to <code>age</code>.",start:"const name = \n\nlet age = \n",hint:"let age = 20; age = age + 1;  (or age += 1)",tests:[["name is text","typeof name==='string'&&name.length>0"],["age is a number above 1","typeof age==='number'&&age>1"]]},
+{t:"Types quiz",h:"What will this print?",p:"Every value has a type: string, number, boolean, and more. Predict the result before you pick.",quiz:[
+{c:"document.write(typeof 42);",o:["number","string","integer"],a:0,w:"JavaScript has one number type for whole and decimal values."},
+{c:"document.write(2 + \"2\");",o:["4","22","NaN"],a:1,w:"When one side is a string, + joins them instead of adding."},
+{c:"document.write(5 > 3 && 2 > 4);",o:["true","false","undefined"],a:1,w:"&& needs both sides true. 2 > 4 is false."},
+{c:"const x = 10;\nx = 11;",o:["x becomes 11","TypeError","x stays 10 silently"],a:1,w:"const can’t be reassigned, so JavaScript throws an error."}]},
+{t:"Decisions",h:"if / else",p:"Conditions let code choose a path. <code>if (test) { ... } else { ... }</code> runs the first block only when the test is true.",task:"Write a function <code>grade(score)</code> that returns <code>\"pass\"</code> when score is 50 or more, otherwise <code>\"fail\"</code>.",start:"function grade(score) {\n  \n}\n",hint:"Use score >= 50 inside the if.",tests:[["grade(80) is \"pass\"","grade(80)==='pass'"],["grade(50) is \"pass\"","grade(50)==='pass'"],["grade(49) is \"fail\"","grade(49)==='fail'"]]},
+{t:"Loops",h:"Repeating work",p:"A <code>for</code> loop repeats a block. <code>for (let i = 1; i <= 3; i++) { ... }</code> runs with i = 1, 2, 3.",task:"Write <code>sum(n)</code> that returns the total of 1 + 2 + … + n using a loop.",start:"function sum(n) {\n  let total = 0;\n  // loop here\n  return total;\n}\n",hint:"Inside the loop: total += i;",tests:[["sum(5) is 15","sum(5)===15"],["sum(1) is 1","sum(1)===1"],["sum(0) is 0","sum(0)===0"]]},
+{t:"Contact us form",h:"Build a Contact Us form",form:1,task:"Create a <b>Contact Us</b> form on your own. In the HTML box, build a form with a name box, an email box, a message box and a send button. In the JavaScript box, use <code>addEventListener</code> so the button shows a message on the page: an error when the form is empty, and a thank-you message when it is filled in.",htmlStart:"<!-- write your form here -->\n",jsStart:"// write your JavaScript here\n",hint:"Use <form>, <input type='text'>, <input type='email'>, <textarea> and <button type='button'>. Give each an id and add an empty <p id='msg'></p>. In JavaScript: get the button by id, add a click listener, read the values, and set msg.textContent."},
+{t:"Send to lecturer",submit:1}
+];
+var saved={},done={},cur=0;
+var $=function(i){return document.getElementById(i)};
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function nav(){
+  $("nav").innerHTML="";
+  L.forEach(function(l,i){var b=document.createElement("button");b.textContent=(i+1)+". "+l.t;
+    if(i===cur)b.setAttribute("aria-current","true");if(done[i])b.className="done";
+    b.onclick=function(){cur=i;render()};$("nav").appendChild(b)});
+  var n=Object.keys(done).length,N=L.length-1;
+  $("bar").style.width=(n/N*100)+"%";
+  $("cnt").textContent=n+" of "+N+" complete"+(n===N?" – nicely done! Send your answers to your lecturer.":"");
+}
+function render(){
+  nav();var l=L[cur],p=$("panel");
+  if(l.submit){submitView(p);return}
+  if(l.form){formView(l,p);return}
+  var h="<h2>"+l.h+"</h2><p>"+l.p+"</p>";
+  if(l.quiz){
+    l.quiz.forEach(function(q,qi){
+      h+='<div class="q"><p>Question '+(qi+1)+'</p><pre>'+esc(q.c)+'</pre>';
+      q.o.forEach(function(o,oi){h+='<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+esc(o)+'</button>'});
+      h+='<div class="why" id="w'+qi+'"></div></div>';
+    });
+    h+='<div class="win" id="win"></div>';
+    p.innerHTML=h;
+    var got={};
+    p.querySelectorAll(".opt").forEach(function(b){b.onclick=function(){
+      var qi=+b.dataset.q,oi=+b.dataset.o,q=l.quiz[qi];
+      if(got[qi])return;
+      if(oi===q.a){b.classList.add("right");got[qi]=1;$("w"+qi).textContent="Correct. "+q.w;
+        if(Object.keys(got).length===l.quiz.length){done[cur]=1;$("win").textContent="All correct – activity complete.";nav()}}
+      else{b.classList.add("wrong");$("w"+qi).textContent="Not quite. Try another answer."}
+    }});
+    return;
+  }
+  h+='<div class="task"><b>Your task:</b> '+l.task+'</div><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea>'+
+  '<div class="row"><button class="btn go" id="run">Run &amp; check</button><button class="btn" id="hint">Show hint</button><button class="btn" id="reset">Reset</button></div>'+
+  '<div class="out" id="out" aria-live="polite">Output appears here.</div><ul class="tests" id="tests"></ul><div class="hint" id="hintbox"></div><div class="win" id="win"></div>';
+  p.innerHTML=h;
+  var ta=$("code");ta.value=(saved[cur]&&saved[cur].code)||l.start;ta.oninput=function(){saved[cur]=saved[cur]||{};saved[cur].code=ta.value};
+  ta.onkeydown=function(e){if(e.key==="Tab"){e.preventDefault();var s=ta.selectionStart;ta.value=ta.value.slice(0,s)+"  "+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+2}};
+  $("hint").onclick=function(){$("hintbox").textContent="Hint: "+l.hint};
+  $("reset").onclick=function(){ta.value=l.start;saved[cur]={code:l.start};$("out").textContent="Output appears here.";$("tests").innerHTML=""};
+  $("run").onclick=function(){run(l,ta.value)};
+}
+function report(name){
+  var s="JavaScript basics – submission\nStudent: "+(name||"(name not entered)")+"\nCompleted: "+Object.keys(done).length+" of "+(L.length-1)+"\n";
+  L.forEach(function(l,i){if(l.submit)return;
+    s+="\n--- "+(i+1)+". "+l.t+" – "+(done[i]?"PASSED":"not completed")+" ---\n";
+    if(l.quiz)s+="(Multiple-choice quiz)\n";
+    else if(saved[i]&&saved[i].code)s+=saved[i].code.trim()+"\n";
+    else s+="(no answer)\n"});
+  return s}
+function submitView(p){
+  p.innerHTML='<h2>Send your answers to your lecturer</h2><p>Enter your name and your lecturer’s email. The report includes the code you wrote and whether each activity passed.</p>'+
+  '<div class="row"><label class="fld">Your name<input id="sn" type="text" autocomplete="name"></label><label class="fld">Lecturer’s email<input id="le" type="email" autocomplete="off"></label></div>'+
+  '<textarea id="rep" readonly aria-label="Report preview" style="min-height:260px"></textarea>'+
+  '<div class="row"><button class="btn go" id="mail">Email to lecturer</button><button class="btn" id="copy">Copy report</button></div><div class="hint" id="msg">If your email app doesn’t open, choose Copy report and paste it into an email or your class portal.</div>';
+  var rep=$("rep");function upd(){rep.value=report($("sn").value.trim())}
+  $("sn").oninput=upd;upd();
+  $("mail").onclick=function(){
+    var e=$("le").value.trim(),n=$("sn").value.trim();
+    if(!n||!e){$("msg").textContent="Please enter your name and your lecturer’s email first.";return}
+    var a=document.createElement("a");
+    a.href="mailto:"+encodeURIComponent(e)+"?subject="+encodeURIComponent("JavaScript basics – "+n)+"&body="+encodeURIComponent(rep.value);
+    a.target="_blank";document.body.appendChild(a);a.click();a.remove();
+    $("msg").textContent="Opening your email app… if nothing happens, use Copy report instead."};
+  $("copy").onclick=function(){
+    var ok=function(){$("msg").textContent="Report copied. Paste it into your email."};
+    var fb=function(){rep.select();try{document.execCommand("copy");ok()}catch(e){$("msg").textContent="Select the text in the box and copy it manually."}};
+    try{navigator.clipboard.writeText(rep.value).then(ok,fb)}catch(e){fb()}};
+}
+function tabKey(e){if(e.key==="Tab"){e.preventDefault();var t=e.target,s=t.selectionStart;t.value=t.value.slice(0,s)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=s+2;t.dispatchEvent(new Event("input"))}}
+function formView(l,p){
+  var sv=saved[cur]||{};
+  p.innerHTML='<h2>'+l.h+'</h2><div class="task"><b>Your task:</b> '+l.task+'</div>'+
+  '<p class="cap">HTML</p><textarea id="fh" spellcheck="false" aria-label="HTML editor"></textarea>'+
+  '<p class="cap">JavaScript</p><textarea id="fj" spellcheck="false" aria-label="JavaScript editor"></textarea>'+
+  '<div class="row"><button class="btn go" id="run">Run &amp; check</button><button class="btn" id="hint">Show hint</button><button class="btn" id="reset">Reset</button></div>'+
+  '<p class="cap">Live preview</p><div class="prev" id="prev"><i class="cap">Your form appears here after you press Run &amp; check.</i></div>'+
+  '<div class="out" id="out" aria-live="polite">Errors appear here.</div><ul class="tests" id="tests"></ul><div class="hint" id="hintbox"></div><div class="win" id="win"></div>';
+  var fh=$("fh"),fj=$("fj");
+  fh.value=sv.html!=null?sv.html:l.htmlStart;fj.value=sv.js!=null?sv.js:l.jsStart;
+  function keep(){saved[cur]={html:fh.value,js:fj.value,code:"<!-- HTML -->\n"+fh.value.trim()+"\n\n// JavaScript\n"+fj.value.trim()}}
+  [fh,fj].forEach(function(t){t.oninput=keep;t.onkeydown=tabKey});
+  $("hint").onclick=function(){$("hintbox").textContent="Hint: "+l.hint};
+  $("reset").onclick=function(){fh.value=l.htmlStart;fj.value=l.jsStart;saved[cur]={code:""}};
+  $("run").onclick=function(){
+    keep();
+    var ul=$("tests"),out=$("out"),res=[];ul.innerHTML="";$("win").textContent="";out.textContent="(no errors)";
+    var old=$("prev"),box=old.cloneNode(false);old.parentNode.replaceChild(box,old);box.id="prev";
+    box.addEventListener("submit",function(e){e.preventDefault()},true);
+    var doc=new DOMParser().parseFromString(fh.value,"text/html");
+    [].slice.call(doc.body.childNodes).forEach(function(n){box.appendChild(document.importNode(n,true))});
+    [].slice.call(box.querySelectorAll("*")).forEach(function(el){
+      if(el.tagName==="SCRIPT"){el.remove();return}
+      [].slice.call(el.attributes).forEach(function(a){if(/^on/i.test(a.name))el.removeAttribute(a.name)})});
+    var all=[].slice.call(box.querySelectorAll("input")),
+        mailRe=/mail/i,
+        form=box.querySelector("form"),
+        nameIn=all.filter(function(i){return (i.getAttribute("type")||"text").toLowerCase()==="text"&&!mailRe.test(i.id+i.name+i.placeholder)})[0],
+        mailIn=all.filter(function(i){return (i.getAttribute("type")||"").toLowerCase()==="email"||mailRe.test(i.id+i.name+i.placeholder)})[0],
+        msgIn=box.querySelector("textarea"),
+        btn=box.querySelector("button")||box.querySelector("input[type=submit]");
+    res.push(["HTML has a form",!!form]);
+    res.push(["Form has a name box",!!nameIn]);
+    res.push(["Form has an email box",!!mailIn]);
+    res.push(["Form has a message box (textarea)",!!msgIn]);
+    res.push(["Form has a send button",!!btn]);
+    var shim={getElementById:function(id){return box.querySelector("#"+CSS.escape(id))},querySelector:function(s){return box.querySelector(s)},querySelectorAll:function(s){return box.querySelectorAll(s)},createElement:function(t){return document.createElement(t)},
+      addEventListener:function(ev,f){if(ev==="DOMContentLoaded"||ev==="load"){f()}else{box.addEventListener(ev,f)}}};
+    var jsOk=true;
+    try{new Function("document",fj.value)(shim)}catch(e){jsOk=false;out.textContent="JavaScript error: "+e.message}
+    var txt=function(){return box.textContent.replace(/\s+/g," ").trim()};
+    var fire=function(){try{if(btn)btn.click();if(form)form.dispatchEvent(new Event("submit",{bubbles:true,cancelable:true}))}catch(e){}};
+    var set=function(el,v){if(el)el.value=v};
+    var base=txt(),a,b;
+    if(jsOk&&btn){
+      set(nameIn,"");set(mailIn,"");set(msgIn,"");fire();a=txt();
+      set(nameIn,"Ali");set(mailIn,"ali@mail.com");set(msgIn,"Hello, I need some help please.");fire();b=txt();
+      set(nameIn,"");set(mailIn,"");set(msgIn,"")}
+    res.push(["JavaScript runs without errors",jsOk]);
+    res.push(["Sending an empty form shows a message",!!(btn&&jsOk&&a!==base)]);
+    res.push(["Sending a filled form shows a different message",!!(btn&&jsOk&&b!==a)]);
+    var pass=true;
+    res.forEach(function(r){var li=document.createElement("li");li.className=r[1]?"pass":"fail";li.textContent=(r[1]?"\u2713 ":"\u2717 ")+r[0];ul.appendChild(li);if(!r[1])pass=false});
+    if(pass){done[cur]=1;$("win").textContent="All checks passed \u2013 activity complete.";nav()}
+  };
+}
+function fmt(v){if(typeof v==="string")return v;try{return JSON.stringify(v)}catch(e){return String(v)}}
+function run(l,code){
+  var OUT=[],out=$("out"),ul=$("tests");ul.innerHTML="";$("win").textContent="";
+  var con={log:function(){OUT.push([].slice.call(arguments).map(fmt).join(" "))}};
+  var checks="["+l.tests.map(function(t){return "(function(){try{return !!("+t[1]+")}catch(e){return false}})()"}).join(",")+"]";
+  var res;
+  try{res=new Function("console","document","OUT",code+"\n;return "+checks)(con,{write:con.log,writeln:con.log},OUT)}
+  catch(e){out.innerHTML=esc(OUT.join("\n"))+'<span class="err">\nError: '+esc(String(e.message))+"</span>";
+    ul.innerHTML='<li class="fail">✗ Your code has an error. Read the message above and try again.</li>';return}
+  out.textContent=OUT.length?OUT.join("\n"):"(your code ran, but nothing was printed)";
+  var all=true;
+  l.tests.forEach(function(t,i){var li=document.createElement("li");li.className=res[i]?"pass":"fail";
+    li.textContent=(res[i]?"✓ ":"✗ ")+t[0];ul.appendChild(li);if(!res[i])all=false});
+  saved[cur]={code:code};
+  if(all){done[cur]=1;$("win").textContent="All checks passed – activity complete.";nav()}
+}
+render();
+</script>
+</body>
+</html>
